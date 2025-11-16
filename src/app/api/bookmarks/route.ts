@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { rateLimit, globalLimiter, getRateLimitHeaders } from '@/lib/rate-limit'
 
 export async function GET(request: NextRequest) {
   try {
@@ -11,6 +12,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
+      )
+    }
+
+    // Rate limiting: 60 requests per minute
+    const rateLimitResult = await rateLimit(request, user.id, 60, globalLimiter)
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { success: false, error: 'Too many requests' },
+        { status: 429, headers: getRateLimitHeaders(rateLimitResult) }
       )
     }
 
@@ -84,6 +94,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }
+      )
+    }
+
+    // Rate limiting: 30 creates per minute
+    const rateLimitResult = await rateLimit(request, user.id, 30, globalLimiter)
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { success: false, error: 'Too many requests' },
+        { status: 429, headers: getRateLimitHeaders(rateLimitResult) }
       )
     }
 

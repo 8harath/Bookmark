@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Extension Icon Generator</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+    .icon-preview {
+      display: inline-block;
+      margin: 10px;
+      padding: 20px;
+      background: white;
+      border: 3px solid black;
+      box-shadow: 6px 6px 0 black;
+    }
+    canvas {
+      border: 2px solid #ccc;
+      image-rendering: pixelated;
+    }
+    button {
+      background: black;
+      color: white;
+      border: 3px solid black;
+      padding: 12px 24px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px;
+      box-shadow: 6px 6px 0 black;
+    }
+    button:hover {
+      background: white;
+      color: black;
+    }
+    .instructions {
+      background: white;
+      border: 4px solid black;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    h1 { text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <h1>📚 Generate Extension Icons</h1>
+
+  <div class="instructions">
+    <h3>Instructions:</h3>
+    <ol>
+      <li>Click "Generate Icons" button below</li>
+      <li>Right-click each icon and "Save image as..."</li>
+      <li>Save to <code>extension/icons/</code> folder:
+        <ul>
+          <li>icon-16.png</li>
+          <li>icon-48.png</li>
+          <li>icon-128.png</li>
+        </ul>
+      </li>
+      <li>Reload your extension in Chrome</li>
+    </ol>
+  </div>
+
+  <button onclick="generateIcons()">GENERATE ICONS</button>
+
+  <div id="preview"></div>
+
+  <script>
+    function drawBookmarkIcon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      const scale = size / 128;
+
+      // Clear canvas
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, size, size);
+
+      // Set styles
+      ctx.fillStyle = 'black';
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = Math.max(2, 4 * scale);
+      ctx.lineJoin = 'miter';
+
+      // Draw bookmark shape
+      const padding = 16 * scale;
+      const bookmarkWidth = size - (padding * 2);
+      const bookmarkHeight = size - padding;
+
+      // Background
+      ctx.fillStyle = 'white';
+      ctx.strokeStyle = 'black';
+
+      // Main bookmark path
+      ctx.beginPath();
+      ctx.moveTo(padding, padding);
+      ctx.lineTo(size - padding, padding);
+      ctx.lineTo(size - padding, bookmarkHeight);
+      ctx.lineTo(size / 2, bookmarkHeight - (20 * scale));
+      ctx.lineTo(padding, bookmarkHeight);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Top bar (black)
+      ctx.fillStyle = 'black';
+      ctx.fillRect(padding, padding, bookmarkWidth, 8 * scale);
+
+      // Inner lines (pages effect)
+      if (size >= 48) {
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = Math.max(1, 2 * scale);
+
+        const lineStart = padding + (8 * scale);
+        const lineEnd = size - padding - (8 * scale);
+        const lineY1 = padding + (20 * scale);
+        const lineY2 = padding + (32 * scale);
+        const lineY3 = padding + (44 * scale);
+
+        ctx.beginPath();
+        ctx.moveTo(lineStart, lineY1);
+        ctx.lineTo(lineEnd, lineY1);
+        ctx.stroke();
+
+        if (size >= 48) {
+          ctx.beginPath();
+          ctx.moveTo(lineStart, lineY2);
+          ctx.lineTo(lineEnd, lineY2);
+          ctx.stroke();
+        }
+
+        if (size >= 128) {
+          ctx.beginPath();
+          ctx.moveTo(lineStart, lineY3);
+          ctx.lineTo(lineEnd - (10 * scale), lineY3);
+          ctx.stroke();
+        }
+      }
+
+      // Add shadow effect for larger icons
+      if (size >= 128) {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        ctx.fillRect(size - padding + 2, padding + 2, 4, bookmarkHeight);
+      }
+    }
+
+    function generateIcons() {
+      const preview = document.getElementById('preview');
+      preview.innerHTML = '';
+
+      [16, 48, 128].forEach(size => {
+        const container = document.createElement('div');
+        container.className = 'icon-preview';
+
+        const title = document.createElement('h3');
+        title.textContent = `${size}x${size}`;
+        container.appendChild(title);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        drawBookmarkIcon(canvas, size);
+
+        // Scale up small icons for visibility
+        if (size < 48) {
+          canvas.style.width = '128px';
+          canvas.style.height = '128px';
+        }
+
+        container.appendChild(canvas);
+
+        const btn = document.createElement('button');
+        btn.textContent = `Save icon-${size}.png`;
+        btn.onclick = () => {
+          const link = document.createElement('a');
+          link.download = `icon-${size}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        };
+        container.appendChild(btn);
+
+        preview.appendChild(container);
+      });
+    }
+
+    // Auto-generate on load
+    window.onload = generateIcons;
+  </script>
+</body>
+</html>

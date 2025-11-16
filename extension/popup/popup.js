@@ -14,12 +14,25 @@ const saveButton = document.getElementById('save-button')
 const retryButton = document.getElementById('retry-button')
 const statusMessage = document.getElementById('status-message')
 const errorMessage = document.getElementById('error-message')
+const loginLink = document.getElementById('login-link')
+const dashboardLink1 = document.getElementById('dashboard-link-1')
+const dashboardLink2 = document.getElementById('dashboard-link-2')
 
 let currentTab = null
+
+// Set dynamic URLs
+function setDynamicUrls() {
+  if (loginLink) loginLink.href = `${API_BASE}/auth/login`
+  if (dashboardLink1) dashboardLink1.href = `${API_BASE}/dashboard`
+  if (dashboardLink2) dashboardLink2.href = `${API_BASE}/dashboard`
+}
 
 // Initialize
 async function init() {
   try {
+    // Set URLs
+    setDynamicUrls()
+
     // Get current tab info
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
     currentTab = tab
