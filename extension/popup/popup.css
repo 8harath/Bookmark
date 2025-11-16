@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 400px;
+  font-family: 'Courier New', monospace;
+  background: #ffffff;
+  color: #000000;
+}
+
+.container {
+  border: 4px solid #000;
+}
+
+.header {
+  background: #000;
+  color: #fff;
+  padding: 16px;
+  border-bottom: 4px solid #000;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+}
+
+.content {
+  padding: 20px;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.page-title {
+  font-size: 14px;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+
+.page-url {
+  font-size: 11px;
+  color: #666;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 3px solid #000;
+  background: #fff;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+}
+
+input:focus {
+  outline: none;
+  border: 4px solid #000;
+  box-shadow: 4px 4px 0px #000;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: #000;
+  color: #fff;
+  border: 3px solid #000;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 6px 6px 0px #000;
+  transition: all 0.15s ease;
+}
+
+.button:hover {
+  background: #fff;
+  color: #000;
+  box-shadow: 8px 8px 0px #000;
+  transform: translate(-2px, -2px);
+}
+
+.button:active {
+  box-shadow: 4px 4px 0px #000;
+  transform: translate(1px, 1px);
+}
+
+.button.secondary {
+  background: #fff;
+  color: #000;
+}
+
+.button.secondary:hover {
+  background: #000;
+  color: #fff;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status-message {
+  margin-top: 12px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.message {
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 3px solid #000;
+}
+
+.message.success {
+  background: #fff;
+  color: #000;
+}
+
+.message.error {
+  border-color: #ff0000;
+  color: #ff0000;
+}
+
+.link {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #000;
+  text-decoration: underline;
+}
+
+.link:hover {
+  text-decoration: none;
+}

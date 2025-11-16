@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookmark Reminder</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📚 BOOKMARK REMINDER</h1>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="content">
+      <p>Loading...</p>
+    </div>
+
+    <!-- Not Logged In State -->
+    <div id="not-logged-in" class="content" style="display: none;">
+      <p class="message">Please log in to save bookmarks</p>
+      <a href="http://localhost:3000/auth/login" target="_blank" class="button">
+        LOGIN
+      </a>
+    </div>
+
+    <!-- Save Form -->
+    <div id="save-form" class="content" style="display: none;">
+      <div class="field">
+        <label>Current Page:</label>
+        <p id="page-title" class="page-title"></p>
+      </div>
+
+      <div class="field">
+        <label>URL:</label>
+        <p id="page-url" class="page-url"></p>
+      </div>
+
+      <div class="field">
+        <label>Tags (optional):</label>
+        <input type="text" id="tags-input" placeholder="web, design, javascript">
+      </div>
+
+      <button id="save-button" class="button">SAVE BOOKMARK</button>
+
+      <p id="status-message" class="status-message"></p>
+
+      <a href="http://localhost:3000/dashboard" target="_blank" class="link">
+        VIEW ALL BOOKMARKS →
+      </a>
+    </div>
+
+    <!-- Success State -->
+    <div id="success" class="content" style="display: none;">
+      <p class="message success">✓ Bookmark saved!</p>
+      <a href="http://localhost:3000/dashboard" target="_blank" class="button">
+        VIEW ALL BOOKMARKS
+      </a>
+    </div>
+
+    <!-- Error State -->
+    <div id="error" class="content" style="display: none;">
+      <p class="message error" id="error-message"></p>
+      <button id="retry-button" class="button secondary">TRY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
